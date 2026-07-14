@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Km ⇄ Mi Converter</title>
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FAF7F2;
+    font-family: 'DM Sans', Arial, sans-serif;
+    color: #2F3E33;
+  }
+
+  .card {
+    background: #ffffff;
+    border: 1px solid #6B8068;
+    border-radius: 12px;
+    padding: 40px;
+    width: 320px;
+    box-shadow: 0 4px 20px rgba(47, 62, 51, 0.08);
+  }
+
+  h1 {
+    font-size: 24px;
+    margin: 0 0 24px 0;
+    text-align: center;
+  }
+
+  label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: #6B8068;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1px solid #6B8068;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+
+  .direction-toggle {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .direction-toggle button {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #6B8068;
+    background: #FAF7F2;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+    color: #2F3E33;
+    transition: background 0.15s ease;
+  }
+
+  .direction-toggle button.active {
+    background: #2F3E33;
+    color: #FAF7F2;
+  }
+
+  .result {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 16px;
+    background: #FAF7F2;
+    border-radius: 8px;
+    min-height: 20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <h1>Km ⇄ Mi Converter</h1>
+
+  <label for="value">Enter a number</label>
+  <input type="number" id="value" placeholder="e.g. 10" oninput="convert()">
+
+  <div class="direction-toggle">
+    <button id="km-to-mi" class="active" onclick="setDirection('km-mi')">km → mi</button>
+    <button id="mi-to-km" onclick="setDirection('mi-km')">mi → km</button>
+  </div>
+
+  <div class="result" id="result">—</div>
+</div>
+
+<script>
+  let direction = 'km-mi';
+
+  function setDirection(dir) {
+    direction = dir;
+    document.getElementById('km-to-mi').classList.toggle('active', dir === 'km-mi');
+    document.getElementById('mi-to-km').classList.toggle('active', dir === 'mi-km');
+    convert();
+  }
+
+  function convert() {
+    const input = document.getElementById('value').value;
+    const resultEl = document.getElementById('result');
+
+    if (input === '' || isNaN(input)) {
+      resultEl.textContent = '—';
+      return;
+    }
+
+    const num = parseFloat(input);
+    let output, unit;
+
+    if (direction === 'km-mi') {
+      output = num * 0.621371;
+      unit = 'mi';
+    } else {
+      output = num / 0.621371;
+      unit = 'km';
+    }
+
+    resultEl.textContent = `${num} ${direction === 'km-mi' ? 'km' : 'mi'} = ${output.toFixed(3)} ${unit}`;
+  }
+</script>
+
+</body>
+</html>
